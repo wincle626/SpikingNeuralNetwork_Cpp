@@ -184,7 +184,7 @@ public:
 	AurynFloat get_activity(NeuronID i);
 
 	/*! \brief Loads stimulus patterns from a designated file given */
-	void load_patterns( string filename );
+	virtual void load_patterns( string filename );
 
 	/*! \brief Set mean quiet interval between consecutive stimuli */
 	void set_mean_off_period(AurynFloat period);

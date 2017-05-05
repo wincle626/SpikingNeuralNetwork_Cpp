@@ -28,9 +28,10 @@
 using namespace auryn;
 
 
-SpikeTimingStimGroup::SpikeTimingStimGroup(NeuronID n, std::string filename, std::string stimfile, StimulusGroupModeType stimulusmode, AurynFloat timeframe) : StimulusGroup( n, filename, stimfile, stimulusmode, timeframe ) 
+SpikeTimingStimGroup::SpikeTimingStimGroup(NeuronID n, std::string filename, std::string stimfile, StimulusGroupModeType stimulusmode, AurynFloat timeframe) : StimulusGroup( n, stimfile, stimulusmode, timeframe ) 
 {
 	init();
+	load_patterns(filename);
 }
 
 SpikeTimingStimGroup::SpikeTimingStimGroup(NeuronID n, std::string stimfile, StimulusGroupModeType stimulusmode, AurynFloat timeframe) : StimulusGroup( n, stimfile, stimulusmode, timeframe ) 
@@ -168,5 +169,21 @@ void SpikeTimingStimGroup::evolve()
 			write_stimulus_file(auryn_timestep*(auryn::sys->get_clock()+1));
 		}
 	}
+}
+
+
+void SpikeTimingStimGroup::load_patterns( string filename ) 
+{
+	// TODO implement
+	TemporalSpikePattern pat1;
+	for ( int i = 0 ; i < 10 ; ++i ) {
+		spike_time_type spk1 = {
+			  i,  // neuron
+			  1e-3*i // t
+		};
+		pat1.push_back(spk1);
+	}
+
+	patterns.push_back(pat1);
 }
 
