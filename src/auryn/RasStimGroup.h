@@ -42,9 +42,21 @@
 namespace auryn {
 
 
-class SpikeTimingStimGroup : public StimulusGroup
+/*! \brief Struct to store single spike times */
+struct spike_time_type {
+	AurynTime t;
+	NeuronID i;
+};
+
+typedef std::vector<spike_time_type> TemporalSpikePattern;
+
+
+class RasStimGroup : public StimulusGroup
 {
 private:
+	/*! \brief vector to store all spatio temporal patterns */
+	std::vector<TemporalSpikePattern> patterns;
+
 	void init();
 
 protected:
@@ -58,12 +70,16 @@ public:
 	AurynDouble refractory_period;
 
 	/*! \brief Default constructor */
-	SpikeTimingStimGroup(NeuronID n, string filename, string stimfile, StimulusGroupModeType stimulusmode=RANDOM, AurynFloat timeframe=0.0 );
+	RasStimGroup(NeuronID n, string filename, string stimfile, StimulusGroupModeType stimulusmode=RANDOM, AurynFloat timeframe=0.0 );
 
 	/*! \brief Constructor without stimfile. Patterns can be loaded afterwards using the load_patterns method. */
-	SpikeTimingStimGroup(NeuronID n, string stimfile, StimulusGroupModeType stimulusmode=RANDOM, AurynFloat timeframe=0.0 );
+	RasStimGroup(NeuronID n, string stimfile, StimulusGroupModeType stimulusmode=RANDOM, AurynFloat timeframe=0.0 );
 
-	virtual ~SpikeTimingStimGroup();
+	/*! \brief Default destructor. */
+	virtual ~RasStimGroup();
+
+	/*! \brief Loads stimulus patterns from a designated file given */
+	virtual void load_patterns( string filename );
 
 	/*! Standard virtual evolve function */
 	virtual void evolve();

@@ -84,6 +84,7 @@
 #include "auryn/FileModulatedPoissonGroup.h"
 #include "auryn/StimulusGroup.h"
 #include "auryn/SpikeTimingStimGroup.h"
+#include "auryn/RasStimGroup.h"
 #include "auryn/ProfilePoissonGroup.h"
 #include "auryn/StructuredPoissonGroup.h"
 #include "auryn/CorrelatedPoissonGroup.h"

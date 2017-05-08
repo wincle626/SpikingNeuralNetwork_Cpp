@@ -23,39 +23,40 @@
 * Front Neuroinform 8, 76. doi: 10.3389/fninf.2014.00076
 */
 
-#include "SpikeTimingStimGroup.h"
+#include "RasStimGroup.h"
 
 using namespace auryn;
 
 
-SpikeTimingStimGroup::SpikeTimingStimGroup(NeuronID n, std::string filename, std::string stimfile, StimulusGroupModeType stimulusmode, AurynFloat timeframe) : StimulusGroup( n, filename, stimfile, stimulusmode, timeframe ) 
+RasStimGroup::RasStimGroup(NeuronID n, std::string filename, std::string stimfile, StimulusGroupModeType stimulusmode, AurynFloat timeframe) : StimulusGroup( n, stimfile, stimulusmode, timeframe ) 
+{
+	init();
+	load_patterns(filename);
+}
+
+RasStimGroup::RasStimGroup(NeuronID n, std::string stimfile, StimulusGroupModeType stimulusmode, AurynFloat timeframe) : StimulusGroup( n, stimfile, stimulusmode, timeframe ) 
 {
 	init();
 }
 
-SpikeTimingStimGroup::SpikeTimingStimGroup(NeuronID n, std::string stimfile, StimulusGroupModeType stimulusmode, AurynFloat timeframe) : StimulusGroup( n, stimfile, stimulusmode, timeframe ) 
-{
-	init();
-}
-
-SpikeTimingStimGroup::~SpikeTimingStimGroup()
+RasStimGroup::~RasStimGroup()
 {
 }
 
-void SpikeTimingStimGroup::init()
+void RasStimGroup::init()
 {
 	refractory_period = 0.0;
 	scale = 1.0;
 }
 
-void SpikeTimingStimGroup::redraw()
+void RasStimGroup::redraw()
 {
 	for ( NeuronID i = 0; i < get_rank_size() ; ++i ) {
 		ttl[i] = sys->get_clock() + activity[i]/auryn_timestep;
 	}
 }
 
-void SpikeTimingStimGroup::evolve()
+void RasStimGroup::evolve()
 {
 	if ( !active ) return;
 
@@ -168,5 +169,21 @@ void SpikeTimingStimGroup::evolve()
 			write_stimulus_file(auryn_timestep*(auryn::sys->get_clock()+1));
 		}
 	}
+}
+
+
+void RasStimGroup::load_patterns( string filename ) 
+{
+	// TODO implement
+	TemporalSpikePattern pat1;
+	for ( int i = 0 ; i < 10 ; ++i ) {
+		spike_time_type spk1 = {
+			  i,  // neuron
+			  1e-3*i // t
+		};
+		pat1.push_back(spk1);
+	}
+
+	patterns.push_back(pat1);
 }
 
